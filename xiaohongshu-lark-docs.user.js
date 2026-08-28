@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         小红书 · 飞书云文档外观
 // @namespace    https://github.com/yangyq081/xiaohongshu-lark-docs
-// @version      0.11.6
+// @version      0.11.7
 // @description  仅改变小红书网页版外观，保留原始内容、链接、按钮和交互。
 // @author       yangyq081
 // @license      MIT
@@ -31,6 +31,7 @@
   const DETAIL_AUTHOR_COMMENT_CLASS = "xhs-lark-author-comment";
   const DETAIL_AUTHOR_BADGE_CLASS = "xhs-lark-author-badge-needed";
   const CONTENT_KEY = "xhs-lark-list-mode";
+  const SEARCH_CONTENT_KEY = "xhs-lark-search-list-mode";
   const STYLE_ID = "xhs-lark-docs-style";
   const FAVICON_ID = "xhs-lark-favicon";
   const CHANNEL_TOGGLE_ID = "xhs-lark-channel-toggle";
@@ -54,6 +55,7 @@
   let tabTitleObserver = null;
   let tabTitleTarget = null;
   let lastNativeTabTitle = "";
+  let activeListPathname = "";
 
   const storage = {
     get(key, fallback) {
@@ -1539,18 +1541,29 @@
       requestAnimationFrame(() => {
         queued = false;
         ensureChannelToggle();
-        ensureDetailMediaToggle();
-        ensureTabBranding();
+        if (location.pathname !== activeListPathname) {
+          applyState();
+        } else {
+          ensureDetailMediaToggle();
+          ensureTabBranding();
+        }
       });
     });
 
     observer.observe(document.documentElement, { childList: true, subtree: true });
   }
 
+  function getContentKey() {
+    return location.pathname.startsWith("/search_result")
+      ? SEARCH_CONTENT_KEY
+      : CONTENT_KEY;
+  }
+
   function applyState() {
-    const content = storage.get(CONTENT_KEY, "minimal");
+    const content = storage.get(getContentKey(), "minimal");
     const root = document.documentElement;
 
+    activeListPathname = location.pathname;
     root.classList.add(ROOT_CLASS, LIST_CLASS);
     root.classList.toggle(MINIMAL_CLASS, content === "minimal");
     ensureDetailMediaToggle();
@@ -1558,8 +1571,9 @@
   }
 
   function toggleListContent() {
-    const content = storage.get(CONTENT_KEY, "minimal");
-    storage.set(CONTENT_KEY, content === "minimal" ? "visual" : "minimal");
+    const contentKey = getContentKey();
+    const content = storage.get(contentKey, "minimal");
+    storage.set(contentKey, content === "minimal" ? "visual" : "minimal");
     applyState();
   }
 
