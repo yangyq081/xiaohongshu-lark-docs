@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         小红书 · 飞书云文档外观
 // @namespace    https://github.com/yangyq081/xiaohongshu-lark-docs
-// @version      0.11.3
+// @version      0.11.5
 // @description  仅改变小红书网页版外观，保留原始内容、链接、按钮和交互。
 // @author       yangyq081
 // @license      MIT
@@ -30,9 +30,7 @@
   const DETAIL_MEDIA_OPEN_CLASS = "xhs-lark-detail-media-open";
   const DETAIL_AUTHOR_COMMENT_CLASS = "xhs-lark-author-comment";
   const DETAIL_AUTHOR_BADGE_CLASS = "xhs-lark-author-badge-needed";
-  const ENABLED_KEY = "xhs-lark-enabled";
-  const VIEW_KEY = "xhs-lark-view";
-  const CONTENT_KEY = "xhs-lark-list-content";
+  const CONTENT_KEY = "xhs-lark-list-mode";
   const STYLE_ID = "xhs-lark-docs-style";
   const FAVICON_ID = "xhs-lark-favicon";
   const CHANNEL_TOGGLE_ID = "xhs-lark-channel-toggle";
@@ -1369,47 +1367,18 @@
   }
 
   function applyState() {
-    const enabled = storage.get(ENABLED_KEY, true) !== false;
-    const view = storage.get(VIEW_KEY, "list");
-    const content = storage.get(CONTENT_KEY, "visual");
+    const content = storage.get(CONTENT_KEY, "minimal");
     const root = document.documentElement;
 
-    root.classList.toggle(ROOT_CLASS, enabled);
-    root.classList.toggle(LIST_CLASS, enabled && view === "list");
-    root.classList.toggle(
-      MINIMAL_CLASS,
-      enabled && view === "list" && content === "minimal",
-    );
-    if (!enabled) {
-      root.classList.remove(DETAIL_MEDIA_OPEN_CLASS);
-    } else {
-      ensureDetailMediaToggle();
-    }
+    root.classList.add(ROOT_CLASS, LIST_CLASS);
+    root.classList.toggle(MINIMAL_CLASS, content === "minimal");
+    ensureDetailMediaToggle();
     ensureTabBranding();
   }
 
-  function toggleEnabled() {
-    const enabled = storage.get(ENABLED_KEY, true) !== false;
-    storage.set(ENABLED_KEY, !enabled);
-    applyState();
-  }
-
-  function toggleView() {
-    const view = storage.get(VIEW_KEY, "list");
-    storage.set(VIEW_KEY, view === "list" ? "masonry" : "list");
-    applyState();
-  }
-
   function toggleListContent() {
-    const content = storage.get(CONTENT_KEY, "visual");
+    const content = storage.get(CONTENT_KEY, "minimal");
     storage.set(CONTENT_KEY, content === "minimal" ? "visual" : "minimal");
-    applyState();
-  }
-
-  function resetSettings() {
-    storage.set(ENABLED_KEY, true);
-    storage.set(VIEW_KEY, "list");
-    storage.set(CONTENT_KEY, "visual");
     applyState();
   }
 
@@ -1418,9 +1387,9 @@
   watchPageInterface();
 
   if (typeof GM_registerMenuCommand === "function") {
-    GM_registerMenuCommand("飞书外观：启用 / 停用", toggleEnabled);
-    GM_registerMenuCommand("内容视图：文档列表 / 原始瀑布流", toggleView);
-    GM_registerMenuCommand("列表内容：显示 / 隐藏缩略图与头像", toggleListContent);
-    GM_registerMenuCommand("恢复飞书外观默认设置", resetSettings);
+    GM_registerMenuCommand(
+      "列表模式：显示缩略图和头像 / 纯文字",
+      toggleListContent,
+    );
   }
 })();

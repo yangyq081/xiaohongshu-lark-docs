@@ -4,6 +4,24 @@
 
 它只修改表现层：小红书原始 DOM、内容、链接、按钮、Vue 事件、登录状态和接口请求均保持不变。
 
+## 界面预览
+
+### 纯文字文档列表（默认）
+
+![纯文字文档列表](docs/screenshots/text-mode.png)
+
+### 显示缩略图和头像
+
+![显示缩略图和头像的文档列表](docs/screenshots/visual-mode.png)
+
+### 帖子详情（媒体区隐藏）
+
+![媒体区隐藏的帖子详情](docs/screenshots/detail-media-hidden.png)
+
+### 帖子详情（媒体区已展开）
+
+![媒体区已展开的帖子详情](docs/screenshots/detail-media.png)
+
 ## 安装
 
 1. 安装 [Tampermonkey](https://www.tampermonkey.net/) 或 Violentmonkey。
@@ -14,10 +32,9 @@
 
 脚本菜单提供：
 
-- 飞书外观启用/停用
-- 文档列表/原始瀑布流切换
-- 完整列表/隐藏缩略图与头像切换
-- 恢复默认设置
+- 显示缩略图和头像/纯文字文档列表切换（默认纯文字）
+
+如需暂时恢复小红书原始界面，直接通过 Tampermonkey 的脚本开关停用本脚本并刷新页面。
 
 ## 覆盖范围
 
