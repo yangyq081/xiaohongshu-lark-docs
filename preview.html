@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>小红书飞书外观预览</title>
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; }
+      .shell { min-height: 100vh; display: grid; grid-template-columns: 240px 1fr; grid-template-rows: 64px 1fr; }
+      .header-container { grid-column: 1 / -1; position: sticky; top: 0; z-index: 2; }
+      header.mask-paper { height: 64px; display: flex; align-items: center; gap: 24px; padding: 0 24px; }
+      .brand { color: #ff2442; font-size: 20px; font-weight: 700; }
+      #link-guide { width: 176px; text-decoration: none; }
+      .input-box { width: min(620px, 54vw); padding: 0 14px; display: flex; align-items: center; }
+      .search-input { width: 100%; border: 0; outline: 0; background: transparent; }
+      .side-bar { padding: 18px 0; }
+      .channel-list { margin: 0; list-style: none; }
+      .link-wrapper { padding: 0 14px; display: flex; align-items: center; gap: 12px; text-decoration: none; }
+      main { grid-column: 2; grid-row: 2; padding: 0 28px 48px; overflow: hidden; }
+      .channel-container { position: sticky; top: 0; z-index: 1; padding: 16px 0; }
+      #channel-container .content-container { display: flex; gap: 4px; }
+      #channel-container .channel { padding: 10px 16px; }
+      .feeds-container { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px 16px; padding-top: 22px; }
+      .note-item { min-width: 0; }
+      .note-item .cover { display: block; height: 220px; }
+      .note-item .cover img { width: 100%; height: 100%; object-fit: cover; }
+      .note-item .footer { padding: 12px; }
+      .note-item .title { color: inherit; text-decoration: none; }
+      .author-wrapper { display: flex; justify-content: space-between; margin-top: 12px; }
+      .author { display: flex; align-items: center; gap: 7px; color: inherit; text-decoration: none; }
+      .author-avatar { width: 22px; height: 22px; border-radius: 50%; }
+      .reds-button-new { height: 36px; padding: 0 16px; border: 1px solid transparent; }
+      @media (min-width: 901px) {
+        .side-bar { position: fixed; inset: 0 auto 0 0; width: 240px; height: 100vh; }
+      }
+      @media (max-width: 900px) {
+        .shell { grid-template-columns: 64px 1fr; }
+        header.mask-paper { gap: 10px; padding: 0 12px; }
+        .brand, #link-guide, header .reds-button-new { display: none; }
+        .input-box { width: 100%; }
+        .side-bar .link-wrapper { justify-content: center; padding: 0; font-size: 18px; }
+        .side-bar .link-wrapper span { display: none; }
+        main { padding: 0 12px 36px; }
+        .channel-container { overflow: hidden; }
+        #channel-container .content-container { overflow-x: auto; }
+        #channel-container .channel { flex: none; white-space: nowrap; font-size: 13px; }
+        .feeds-container { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 10px; }
+      }
+    </style>
+    <script>
+      if (new URLSearchParams(location.search).get("minimal") === "1") {
+        window.GM_getValue = (key, fallback) =>
+          key === "xhs-lark-list-content" ? "minimal" : fallback;
+      }
+    </script>
+    <script src="./xiaohongshu-lark-docs.user.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div id="global" class="shell">
+        <div class="header-container">
+          <header class="mask-paper">
+            <a id="link-guide" href="#"><span class="brand">小红书</span></a>
+            <div class="input-box"><input id="search-input" class="search-input" placeholder="搜索真实内容" /></div>
+            <button class="reds-button-new primary">创作中心</button>
+          </header>
+        </div>
+        <aside class="side-bar">
+          <ul class="channel-list">
+            <div class="channel-list-content">
+              <li class="active-channel"><a class="active link-wrapper" href="#">⌂ <span>发现</span></a></li>
+              <li><a class="link-wrapper" href="#">▷ <span>RED</span></a></li>
+              <li><a class="link-wrapper" href="#">◉ <span>直播</span></a></li>
+              <li><a class="link-wrapper" href="#">＋ <span>发布</span></a></li>
+              <li><a class="link-wrapper" href="#">♢ <span>通知</span></a></li>
+              <li><a class="link-wrapper" href="#">○ <span>消息</span></a></li>
+            </div>
+          </ul>
+        </aside>
+        <main class="main-content">
+          <div class="channel-container">
+            <div id="channel-container">
+              <div class="content-container">
+                <div class="active channel">推荐</div><div class="channel">穿搭</div><div class="channel">美食</div><div class="channel">旅行</div><div class="channel">职场</div>
+              </div>
+            </div>
+          </div>
+          <div id="exploreFeeds" class="feeds-container">
+            <section class="note-item"><div><a class="cover" href="#"><img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&w=600&q=80" alt="明亮的工作空间" /></a><div class="footer"><a class="title" href="#">把日常整理成清晰的生活文档</a><div class="author-wrapper"><a class="author" href="#"><img class="author-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=80&q=80" alt="" /><span class="name">一页生活</span></a><span class="count">328</span></div></div></div></section>
+            <section class="note-item"><div><a class="cover" href="#"><img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=600&q=80" alt="桌上的笔记本电脑" /></a><div class="footer"><a class="title" href="#">我的轻量工作流与桌面布置</a><div class="author-wrapper"><a class="author" href="#"><img class="author-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80" alt="" /><span class="name">晴天计划</span></a><span class="count">1.2万</span></div></div></div></section>
+            <section class="note-item"><div><a class="cover" href="#"><img src="https://images.unsplash.com/photo-1484101403633-562f891dc89a?auto=format&fit=crop&w=600&q=80" alt="客厅陈设" /></a><div class="footer"><a class="title" href="#">小空间也能保持安静和秩序</a><div class="author-wrapper"><a class="author" href="#"><img class="author-avatar" src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=80&q=80" alt="" /><span class="name">住进光里</span></a><span class="count">896</span></div></div></div></section>
+            <section class="note-item"><div><a class="cover" href="#"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=600&q=80" alt="一杯咖啡" /></a><div class="footer"><a class="title" href="#">周末咖啡馆记录</a><div class="author-wrapper"><a class="author" href="#"><img class="author-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80" alt="" /><span class="name">慢慢喝完</span></a><span class="count">643</span></div></div></div></section>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
