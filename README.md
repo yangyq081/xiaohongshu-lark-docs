@@ -48,3 +48,9 @@
 ## 维护
 
 小红书会不定期调整 CSS 类名。脚本优先使用当前页面较稳定的语义类，例如 `.side-bar`、`.note-item`、`#channel-container`、`#noteContainer` 和 `.reds-button-new`。如果局部样式失效，更新对应 CSS 选择器即可，不需要接触站点数据逻辑。
+
+## License
+
+[MIT](LICENSE) (c) 2026 YAQIYANG
+
+小红书、飞书及 Tampermonkey 的名称、商标与产品归其各自权利人所有。本项目为非官方、非关联作品。

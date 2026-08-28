@@ -1,9 +1,10 @@
 // ==UserScript==
 // @name         小红书 · 飞书云文档外观
 // @namespace    https://github.com/yangyq081/xiaohongshu-lark-docs
-// @version      0.11.1
+// @version      0.11.2
 // @description  仅改变小红书网页版外观，保留原始内容、链接、按钮和交互。
 // @author       yangyq081
+// @license      MIT
 // @match        https://www.xiaohongshu.com/*
 // @match        https://xiaohongshu.com/*
 // @icon         https://www.xiaohongshu.com/favicon.ico
