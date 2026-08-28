@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         小红书 · 飞书云文档外观
 // @namespace    https://github.com/yangyq081/xiaohongshu-lark-docs
-// @version      0.11.2
+// @version      0.11.3
 // @description  仅改变小红书网页版外观，保留原始内容、链接、按钮和交互。
 // @author       yangyq081
 // @license      MIT
@@ -24,7 +24,6 @@
   "use strict";
 
   const ROOT_CLASS = "xhs-lark-skin";
-  const COMPACT_CLASS = "xhs-lark-compact";
   const LIST_CLASS = "xhs-lark-list";
   const MINIMAL_CLASS = "xhs-lark-minimal-list";
   const CHANNELS_OPEN_CLASS = "xhs-lark-channels-open";
@@ -32,7 +31,6 @@
   const DETAIL_AUTHOR_COMMENT_CLASS = "xhs-lark-author-comment";
   const DETAIL_AUTHOR_BADGE_CLASS = "xhs-lark-author-badge-needed";
   const ENABLED_KEY = "xhs-lark-enabled";
-  const DENSITY_KEY = "xhs-lark-density";
   const VIEW_KEY = "xhs-lark-view";
   const CONTENT_KEY = "xhs-lark-list-content";
   const STYLE_ID = "xhs-lark-docs-style";
@@ -108,11 +106,6 @@
       --xld-sidebar-width: 240px;
       --xld-control-height: 40px;
       --xld-nav-gap: 8px;
-    }
-
-    html.${ROOT_CLASS}.${COMPACT_CLASS} {
-      --xld-control-height: 36px;
-      --xld-nav-gap: 4px;
     }
 
     html.${ROOT_CLASS},
@@ -1377,13 +1370,11 @@
 
   function applyState() {
     const enabled = storage.get(ENABLED_KEY, true) !== false;
-    const density = storage.get(DENSITY_KEY, "comfortable");
     const view = storage.get(VIEW_KEY, "list");
     const content = storage.get(CONTENT_KEY, "visual");
     const root = document.documentElement;
 
     root.classList.toggle(ROOT_CLASS, enabled);
-    root.classList.toggle(COMPACT_CLASS, enabled && density === "compact");
     root.classList.toggle(LIST_CLASS, enabled && view === "list");
     root.classList.toggle(
       MINIMAL_CLASS,
@@ -1403,12 +1394,6 @@
     applyState();
   }
 
-  function toggleDensity() {
-    const density = storage.get(DENSITY_KEY, "comfortable");
-    storage.set(DENSITY_KEY, density === "compact" ? "comfortable" : "compact");
-    applyState();
-  }
-
   function toggleView() {
     const view = storage.get(VIEW_KEY, "list");
     storage.set(VIEW_KEY, view === "list" ? "masonry" : "list");
@@ -1423,7 +1408,6 @@
 
   function resetSettings() {
     storage.set(ENABLED_KEY, true);
-    storage.set(DENSITY_KEY, "comfortable");
     storage.set(VIEW_KEY, "list");
     storage.set(CONTENT_KEY, "visual");
     applyState();
@@ -1437,7 +1421,6 @@
     GM_registerMenuCommand("飞书外观：启用 / 停用", toggleEnabled);
     GM_registerMenuCommand("内容视图：文档列表 / 原始瀑布流", toggleView);
     GM_registerMenuCommand("列表内容：显示 / 隐藏缩略图与头像", toggleListContent);
-    GM_registerMenuCommand("界面密度：舒适 / 紧凑", toggleDensity);
     GM_registerMenuCommand("恢复飞书外观默认设置", resetSettings);
   }
 })();
