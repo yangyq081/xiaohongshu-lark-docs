@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         小红书 · 飞书云文档外观
 // @namespace    https://github.com/yangyq081/xiaohongshu-lark-docs
-// @version      0.11.5
+// @version      0.11.6
 // @description  仅改变小红书网页版外观，保留原始内容、链接、按钮和交互。
 // @author       yangyq081
 // @license      MIT
@@ -564,7 +564,8 @@
     }
 
     /* Cloud document list. The site's original nodes and handlers stay intact. */
-    html.${ROOT_CLASS}.${LIST_CLASS} #exploreFeeds.feeds-container {
+    html.${ROOT_CLASS}.${LIST_CLASS}
+      :is(#exploreFeeds, .search-layout__main .feeds-container) {
       display: flex !important;
       flex-direction: column !important;
       gap: 0 !important;
@@ -574,7 +575,8 @@
       border-top: 1px solid var(--xld-border-soft);
     }
 
-    html.${ROOT_CLASS}.${LIST_CLASS} #exploreFeeds > .note-item {
+    html.${ROOT_CLASS}.${LIST_CLASS}
+      :is(#exploreFeeds, .search-layout__main .feeds-container) > .note-item {
       position: relative !important;
       inset: auto !important;
       width: 100% !important;
@@ -586,11 +588,16 @@
       transition: background-color 140ms ease;
     }
 
-    html.${ROOT_CLASS}.${LIST_CLASS} #exploreFeeds > .note-item:hover {
+    html.${ROOT_CLASS}.${LIST_CLASS}
+      :is(#exploreFeeds, .search-layout__main .feeds-container)
+      > .note-item:hover {
       background: var(--xld-fill) !important;
     }
 
-    html.${ROOT_CLASS}.${LIST_CLASS} #exploreFeeds > .note-item > div {
+    html.${ROOT_CLASS}.${LIST_CLASS}
+      :is(#exploreFeeds, .search-layout__main .feeds-container)
+      > .note-item
+      > div {
       display: grid !important;
       grid-template-columns: 48px minmax(0, 1fr) !important;
       align-items: center !important;
@@ -600,7 +607,10 @@
       padding: 8px 12px !important;
     }
 
-    html.${ROOT_CLASS}.${LIST_CLASS} #exploreFeeds .note-item .cover {
+    html.${ROOT_CLASS}.${LIST_CLASS}
+      :is(#exploreFeeds, .search-layout__main .feeds-container)
+      .note-item
+      .cover {
       display: block !important;
       width: 48px !important;
       min-width: 48px !important;
@@ -609,13 +619,20 @@
       outline-color: var(--xld-border-soft);
     }
 
-    html.${ROOT_CLASS}.${LIST_CLASS} #exploreFeeds .note-item .cover img {
+    html.${ROOT_CLASS}.${LIST_CLASS}
+      :is(#exploreFeeds, .search-layout__main .feeds-container)
+      .note-item
+      .cover
+      img {
       width: 100% !important;
       height: 100% !important;
       object-fit: cover !important;
     }
 
-    html.${ROOT_CLASS}.${LIST_CLASS} #exploreFeeds .note-item .footer {
+    html.${ROOT_CLASS}.${LIST_CLASS}
+      :is(#exploreFeeds, .search-layout__main .feeds-container)
+      .note-item
+      .footer {
       display: grid !important;
       grid-template-columns: minmax(0, 1fr) minmax(220px, 34%) !important;
       align-items: center !important;
@@ -628,7 +645,10 @@
       box-shadow: none !important;
     }
 
-    html.${ROOT_CLASS}.${LIST_CLASS} #exploreFeeds .note-item .title {
+    html.${ROOT_CLASS}.${LIST_CLASS}
+      :is(#exploreFeeds, .search-layout__main .feeds-container)
+      .note-item
+      .title {
       display: block !important;
       min-width: 0 !important;
       overflow: hidden !important;
@@ -640,7 +660,10 @@
       white-space: nowrap !important;
     }
 
-    html.${ROOT_CLASS}.${LIST_CLASS} #exploreFeeds .note-item .author-wrapper {
+    html.${ROOT_CLASS}.${LIST_CLASS}
+      :is(#exploreFeeds, .search-layout__main .feeds-container)
+      .note-item
+      .author-wrapper {
       display: grid !important;
       grid-template-columns: minmax(0, 1fr) 76px !important;
       align-items: center !important;
@@ -649,46 +672,137 @@
       margin: 0 !important;
     }
 
-    html.${ROOT_CLASS}.${LIST_CLASS} #exploreFeeds .note-item .author {
+    html.${ROOT_CLASS}.${LIST_CLASS}
+      :is(#exploreFeeds, .search-layout__main .feeds-container)
+      .note-item
+      .author {
       min-width: 0 !important;
       overflow: hidden !important;
     }
 
-    html.${ROOT_CLASS}.${LIST_CLASS} #exploreFeeds .note-item .author .name {
+    html.${ROOT_CLASS}.${LIST_CLASS}
+      :is(#exploreFeeds, .search-layout__main .feeds-container)
+      .note-item
+      .author
+      .name {
       overflow: hidden !important;
       text-overflow: ellipsis !important;
       white-space: nowrap !important;
     }
 
-    html.${ROOT_CLASS}.${LIST_CLASS} #exploreFeeds .note-item .like-wrapper {
+    html.${ROOT_CLASS}.${LIST_CLASS}
+      :is(#exploreFeeds, .search-layout__main .feeds-container)
+      .note-item
+      .like-wrapper {
       justify-self: end !important;
       white-space: nowrap !important;
     }
 
-    html.${ROOT_CLASS}.${LIST_CLASS} #exploreFeeds .note-item :is(.play-icon, .live-badge) {
+    html.${ROOT_CLASS}.${LIST_CLASS}
+      :is(#exploreFeeds, .search-layout__main .feeds-container)
+      .note-item
+      :is(.play-icon, .live-badge) {
       transform: scale(0.78);
       transform-origin: center;
     }
 
+    /* Search cards use a different footer wrapper from the explore feed. */
+    html.${ROOT_CLASS}.${LIST_CLASS}
+      .search-layout__main
+      :is(#exploreFeeds, .search-layout__main .feeds-container)
+      .note-item
+      .footer {
+      grid-template-columns: auto minmax(0, 1fr) minmax(220px, 34%) !important;
+      gap: 12px !important;
+    }
+
+    html.${ROOT_CLASS}.${LIST_CLASS}
+      .search-layout__main
+      :is(#exploreFeeds, .search-layout__main .feeds-container)
+      .note-item
+      .footer
+      > a:has(.xhs-file-tag) {
+      grid-column: 1 !important;
+      min-width: 0 !important;
+    }
+
+    html.${ROOT_CLASS}.${LIST_CLASS}
+      .search-layout__main
+      :is(#exploreFeeds, .search-layout__main .feeds-container)
+      .note-item
+      .footer
+      > .title {
+      grid-column: 2 !important;
+    }
+
+    html.${ROOT_CLASS}.${LIST_CLASS}
+      .search-layout__main
+      :is(#exploreFeeds, .search-layout__main .feeds-container)
+      .note-item
+      .footer
+      > .title:first-child {
+      grid-column: 1 / 3 !important;
+    }
+
+    html.${ROOT_CLASS}.${LIST_CLASS}
+      .search-layout__main
+      :is(#exploreFeeds, .search-layout__main .feeds-container)
+      .note-item
+      .card-bottom-wrapper {
+      display: grid !important;
+      grid-column: 3 !important;
+      grid-template-columns: minmax(0, 1fr) 76px !important;
+      align-items: center !important;
+      gap: 12px !important;
+      min-width: 0 !important;
+    }
+
+    html.${ROOT_CLASS}.${LIST_CLASS}
+      .search-layout__main
+      :is(#exploreFeeds, .search-layout__main .feeds-container)
+      .note-item
+      .card-bottom-wrapper
+      .author {
+      min-width: 0 !important;
+      overflow: hidden !important;
+    }
+
+    html.${ROOT_CLASS}.${LIST_CLASS}
+      .search-layout__main
+      :is(#exploreFeeds, .search-layout__main .feeds-container)
+      .note-item
+      .card-bottom-wrapper
+      .name-time-wrapper {
+      min-width: 0 !important;
+      overflow: hidden !important;
+    }
+
     /* Optional text-only list. Nodes remain mounted so mode changes are reversible. */
     html.${ROOT_CLASS}.${LIST_CLASS}.${MINIMAL_CLASS}
-      #exploreFeeds > .note-item > div {
+      :is(#exploreFeeds, .search-layout__main .feeds-container)
+      > .note-item
+      > div {
       grid-template-columns: minmax(0, 1fr) !important;
     }
 
     html.${ROOT_CLASS}.${LIST_CLASS}.${MINIMAL_CLASS}
-      #exploreFeeds .note-item .cover {
+      :is(#exploreFeeds, .search-layout__main .feeds-container)
+      .note-item
+      .cover {
       display: none !important;
     }
 
     html.${ROOT_CLASS}.${LIST_CLASS}.${MINIMAL_CLASS}
-      #exploreFeeds .note-item
+      :is(#exploreFeeds, .search-layout__main .feeds-container)
+      .note-item
       :is(.avatar-container, .author-avatar, .avatar-wrapper, .live-avatar-container) {
       display: none !important;
     }
 
     html.${ROOT_CLASS}.${LIST_CLASS}.${MINIMAL_CLASS}
-      #exploreFeeds .note-item .author {
+      :is(#exploreFeeds, .search-layout__main .feeds-container)
+      .note-item
+      .author {
       gap: 0 !important;
     }
 
@@ -1047,29 +1161,96 @@
         border-inline: 0 !important;
       }
 
-      html.${ROOT_CLASS}.${LIST_CLASS} #exploreFeeds > .note-item,
-      html.${ROOT_CLASS}.${LIST_CLASS} #exploreFeeds > .note-item > div {
+      html.${ROOT_CLASS}.${LIST_CLASS}
+        :is(#exploreFeeds, .search-layout__main .feeds-container)
+        > .note-item,
+      html.${ROOT_CLASS}.${LIST_CLASS}
+        :is(#exploreFeeds, .search-layout__main .feeds-container)
+        > .note-item
+        > div {
         height: 76px !important;
       }
 
-      html.${ROOT_CLASS}.${LIST_CLASS} #exploreFeeds > .note-item > div {
+      html.${ROOT_CLASS}.${LIST_CLASS}
+        :is(#exploreFeeds, .search-layout__main .feeds-container)
+        > .note-item
+        > div {
         grid-template-columns: 52px minmax(0, 1fr) !important;
         gap: 10px !important;
         padding: 10px 8px !important;
       }
 
-      html.${ROOT_CLASS}.${LIST_CLASS} #exploreFeeds .note-item .cover {
+      html.${ROOT_CLASS}.${LIST_CLASS}
+        :is(#exploreFeeds, .search-layout__main .feeds-container)
+        .note-item
+        .cover {
         width: 52px !important;
         min-width: 52px !important;
         height: 52px !important;
       }
 
-      html.${ROOT_CLASS}.${LIST_CLASS} #exploreFeeds .note-item .footer {
+      html.${ROOT_CLASS}.${LIST_CLASS}
+        :is(#exploreFeeds, .search-layout__main .feeds-container)
+        .note-item
+        .footer {
         grid-template-columns: minmax(0, 1fr) !important;
         gap: 4px !important;
       }
 
-      html.${ROOT_CLASS}.${LIST_CLASS} #exploreFeeds .note-item .author-wrapper {
+      html.${ROOT_CLASS}.${LIST_CLASS}
+        :is(#exploreFeeds, .search-layout__main .feeds-container)
+        .note-item
+        .author-wrapper {
+        grid-template-columns: minmax(0, 1fr) 68px !important;
+        gap: 8px !important;
+      }
+
+      html.${ROOT_CLASS}.${LIST_CLASS}
+        .search-layout__main
+        :is(#exploreFeeds, .search-layout__main .feeds-container)
+        .note-item
+        .footer {
+        grid-template-columns: auto minmax(0, 1fr) !important;
+        grid-template-rows: 22px 22px !important;
+        gap: 2px 8px !important;
+      }
+
+      html.${ROOT_CLASS}.${LIST_CLASS}
+        .search-layout__main
+        :is(#exploreFeeds, .search-layout__main .feeds-container)
+        .note-item
+        .footer
+        > a:has(.xhs-file-tag) {
+        grid-column: 1 !important;
+        grid-row: 1 !important;
+      }
+
+      html.${ROOT_CLASS}.${LIST_CLASS}
+        .search-layout__main
+        :is(#exploreFeeds, .search-layout__main .feeds-container)
+        .note-item
+        .footer
+        > .title {
+        grid-column: 2 !important;
+        grid-row: 1 !important;
+      }
+
+      html.${ROOT_CLASS}.${LIST_CLASS}
+        .search-layout__main
+        :is(#exploreFeeds, .search-layout__main .feeds-container)
+        .note-item
+        .footer
+        > .title:first-child {
+        grid-column: 1 / 3 !important;
+      }
+
+      html.${ROOT_CLASS}.${LIST_CLASS}
+        .search-layout__main
+        :is(#exploreFeeds, .search-layout__main .feeds-container)
+        .note-item
+        .card-bottom-wrapper {
+        grid-column: 1 / 3 !important;
+        grid-row: 2 !important;
         grid-template-columns: minmax(0, 1fr) 68px !important;
         gap: 8px !important;
       }
